@@ -1,7 +1,14 @@
-write-host 'number of arguments was :'
-($args.lenth)
-Write-Output 'and there were '
-foreach ($arg in $args)
+Param(
+[Parameter(mandatory=$true)][string]$computername,[switch]$showlogprocs)
+if ($showlogprocs)
 {
-    write-output $arg
+	get-ciminstance -class win32_computersystem -computername $computername  `
+	| fl numberoflogicalprocessors,totalphysicalmemory
 }
+else
+{
+	get-ciminstance  -class win32_computersystem -computername $computername `
+	| fl numberofprocessors, totalphysicalmemory
+}
+
+i
